@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+    <head>
+    <meta charset="UTF-8">
+            <title>Document</title>
+        <style>
+            [ng-cloak] {
+                display: none;
+            }
+        </style>
+</head>
+<body ng-app = "appAn">
+<div  ng-controller = "controller">
+    <input ng-model = "newTodo" type="text" ng-keyup = "$event.keyCode==13 && addTodo()">
+    <ul ng-cloak="">
+        <li ng-repeat="todo in todos | filter:newTodo">
+            <span >{{todo.text}}</span>
+            <button ng-click = "removeTodo($index)">X</button>
+        </li>
+    </ul>
+</div>
+<script src="angular.js"></script>
+
+<script>
+    var app = angular.module('appAn',[]);
+    app.controller("controller", ["$scope", function ($scope) {
+        $scope.todos = [
+            {text:"Add some todo"}
+        ];
+        $scope.newTodo = 'Hello';
+        $scope.addTodo = function () {
+          var text = this.newTodo.trim();
+            if(text) {
+                this.todos.push(
+                        {text:text}
+                );
+                this.newTodo = '';
+            }
+        };
+        $scope.removeTodo = function (index) {
+         this.todos.splice(index,1);
+        }
+    }]);
+
+</script>
+
+</body>
+</html>

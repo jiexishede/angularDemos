@@ -1,0 +1,59 @@
+<!doctype html>
+<html ng-app="HelloApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        /* 在Dom加载完后,angualr 编译完成后,动态取消这个[ng-cloak]属性,并且,取消 ng-cloak 的css 样式*/
+        [ng-cloak] {
+            display: none;
+        }
+    </style>
+
+</head>
+<body>
+<table border="1" ng-controller="worldController">
+    <tr>
+        <td>用户名</td>
+        <td><input type="text" ng-model="user.name"></td>
+    </tr>
+    <tr>
+        <td>密码</td>
+        <td><input type="password" ng-model="user.password"></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td><input type="button" ng-click='login()' value="登录"></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td ng-cloak>{{message}}</td>
+    </tr>
+</table>
+<script src="angular.js"></script>
+<script>
+    var app = angular.module('HelloApp',[]);
+    var HHcontorller = app.controller('worldController', ['$scope', function ($scope) {
+        $scope.user = {
+            username : '',
+            password:'',
+        };
+        $scope.message = '请输入用户名';
+        $scope.$watch('user.username', function (now,old) {
+            console.log('now is ' + now);
+            console.log('old is ' + old);
+            var aa = now.trim();
+            if(aa){
+                if(aa.length < 7 ){
+                    $scope.message = '输入格式不合法';
+                } else {
+                    $scope.message = ''
+                }
+            } else {
+                $scope.message = '请输入用户名';
+            }
+        })
+    }]);
+</script>
+</body>
+</html>
